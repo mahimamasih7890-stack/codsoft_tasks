@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahima Masih - Portfolio</title>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 22px;
+            color: #38bdf8;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        /* Container Alignment */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            border-bottom: 4px solid #38bdf8;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .btn-main {
+            display: inline-block;
+            background-color: #38bdf8;
+            color: #0f172a;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-main:hover {
+            background-color: #0284c7;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Card Sections */
+        .section-card {
+            background: white;
+            margin: 30px 0;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            color: #0f172a;
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #38bdf8;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Skills Tags */
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .skills-list li {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Project Cards */
+        .project-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid #38bdf8;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .project-card h3 {
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .project-card p {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .project-link {
+            color: #0284c7;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Resume Section */
+        .resume-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .btn-green {
+            display: inline-block;
+            background-color: #10b981;
+            color: white;
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-green:hover {
+            background-color: #059669;
+        }
+
+        /* Contact Form */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+        }
+
+        .btn-submit {
+            background-color: #0f172a;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 15px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #1e293b;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <h1>Mahima Masih</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#resume">Resume</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Home Banner -->
+    <section id="home" class="hero">
+        <h2>Hi, I am Mahima Masih 👋</h2>
+        <p>BCA Student & Aspiring Frontend Developer</p>
+        <a href="#projects" class="btn-main">Explore My Work</a>
+    </section>
+
+    <div class="container">
+
+        <!-- About Section -->
+        <section id="about" class="section-card">
+            <h2 class="section-title">About Me</h2>
+            <p>Hi! I’m Mahima, a BCA 3rd semester student currently learning Frontend Development. I’m exploring web technologies and building my understanding of how to create clean, responsive, and user-friendly websites.
+I enjoy learning new concepts, working on practical projects, and improving my skills step by step. I’m curious, hardworking, and always excited to learn something new.
+My goal is to strengthen my frontend development skills and grow into a skilled and confident developer.</p>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section-card">
+            <h2 class="section-title">Technical Skills</h2>
+            <ul class="skills-list">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>Python</li>
+                <li>C Language</li>
+            </ul>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section-card">
+            <h2 class="section-title">My Projects</h2>
+
+            <div class="project-card">
+                <h3>1. Personal Portfolio Website</h3>
+                <p>A clean and responsive personal portfolio to showcase my background, technical skills, projects, and resume.</p>
+                <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+            </div>
+
+            <div class="project-card">
+                <h3>2. To-Do List Application</h3>
+                <p>An interactive task management web application that saves user tasks locally in the browser.</p>
+                <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+                <a href="./todo_index.html" class="project-link">View Project →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>3. Personal Expense Tracker</h3>
+                <p>A web app designed to keep track of daily income, expenses, and remaining balance.</p>
+                <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+            </div>
+        </section>
+
+        <!-- Resume Section -->
+        <section id="resume" class="section-card resume-box">
+            <h2 class="section-title">My Resume</h2>
+            <p>You can download my updated resume by clicking the button below:</p>
+            <a href="./resume.pdf" download="Mahima_Masih_Resume.pdf" class="btn-green">Download Resume PDF</a>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-card">
+            <h2 class="section-title">Contact Me</h2>
+            <p style="margin-bottom: 15px;">Feel free to reach out to me for any inquiries or opportunities!</p>
+            <p><strong>Email:</strong> mahimamasih7890@gmail.com</p>
+            <p><strong>Phone:</strong> +91-9456166084</p>
+            <p style="margin-bottom: 20px;"><strong>Location:</strong> Dehradun, Uttarakhand, India</p>
+
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" class="form-input" rows="4" placeholder="Write your message here..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+            <p id="formFeedback" style="font-weight: bold; margin-top: 15px; text-align: center;"></p>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Mahima Masih. All Rights Reserved.</p>
+    </footer>
+
+    <!-- External JavaScript File -->
+    <script src="./portfolio.js"></script>
+</body>
+</html>

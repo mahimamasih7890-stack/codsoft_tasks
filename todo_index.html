@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List Application</title>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* CSS internal variables and styling */
+    :root {
+      --bg-color: #f4f7f6;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --border-color: #e0e0e0;
+      --primary: #4a90e2;
+      --primary-hover: #357abd;
+      --secondary: #6c757d;
+      --success: #28a745;
+      --danger: #dc3545;
+      --warning: #ffc107;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #1e1e2e;
+      --card-bg: #2d2d3f;
+      --text-color: #f8f9fa;
+      --border-color: #444454;
+      --primary: #5c9ce6;
+      --secondary: #8892b0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .form-group, .form-row {
+      margin-bottom: 15px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      font-weight: bold;
+      transition: opacity 0.2s;
+    }
+
+    button:hover { opacity: 0.9; }
+
+    .btn-primary { background-color: var(--primary); color: white; }
+    .btn-secondary { background-color: var(--secondary); color: white; width: auto; padding: 8px 15px; }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background-color: var(--card-bg);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    /* Task Item Styling */
+    #task-list { list-style: none; }
+
+    .task-item {
+      background-color: var(--card-bg);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 5px solid var(--primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .task-item.priority-High { border-left-color: var(--danger); }
+    .task-item.priority-Medium { border-left-color: var(--warning); }
+    .task-item.priority-Low { border-left-color: var(--success); }
+
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .task-details {
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .task-actions button {
+      width: auto;
+      padding: 6px 10px;
+    }
+
+    .btn-complete { background-color: var(--success); color: white; }
+    .btn-edit { background-color: var(--primary); color: white; }
+    .btn-delete { background-color: var(--danger); color: white; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1><i class="fa-solid fa-list-check"></i> Task Manager</h1>
+      <button id="theme-toggle" class="btn-secondary">
+        <i class="fa-solid fa-moon"></i> <span id="theme-text">Dark Mode</span>
+      </button>
+    </header>
+
+    <!-- Task Input Form -->
+    <section class="card">
+      <h2>Add New Task</h2>
+      <form id="task-form">
+        <div class="form-group">
+          <input type="text" id="task-title" placeholder="Enter task title..." required>
+        </div>
+        <div class="form-row">
+          <select id="task-category" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Study">Study</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="task-priority" required>
+            <option value="" disabled selected>Select Priority</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+          <input type="date" id="task-due-date" required>
+        </div>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Task</button>
+      </form>
+    </section>
+
+    <!-- Dashboard & Summary Counters -->
+    <section class="stats-container">
+      <div class="stat-card">
+        <h3 id="total-tasks">0</h3>
+        <p>Total Tasks</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="completed-tasks">0</h3>
+        <p>Completed Tasks</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="pending-tasks">0</h3>
+        <p>Pending Tasks</p>
+      </div>
+    </section>
+
+    <!-- Controls: Search & Filters -->
+    <section class="card controls">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="search-input" placeholder="Search tasks...">
+      </div>
+      <div class="filter-box">
+        <select id="filter-status">
+          <option value="all">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="completed">Completed</option>
+        </select>
+        <select id="filter-category">
+          <option value="all">All Categories</option>
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+          <option value="Study">Study</option>
+          <option value="Other">Other</option>
+        </select>
+        <select id="filter-priority">
+          <option value="all">All Priorities</option>
+          <option value="Low">Low Priority</option>
+          <option value="Medium">Medium Priority</option>
+          <option value="High">High Priority</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Task List -->
+    <section class="task-list-section">
+      <ul id="task-list"></ul>
+    </section>
+  </div>
+
+  <!-- JavaScript file inclusion -->
+  <script src="todo_script.js"></script>
+</body>
+</html>

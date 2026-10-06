@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f7f6;
+      color: #333;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      color: #1e3c72;
+    }
+
+    /* Summary Cards */
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .card h3 {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .card p {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .card.balance p { color: #1e3c72; }
+    .card.income p { color: #2e7d32; }
+    .card.expense p { color: #c62828; }
+
+    /* Forms */
+    .form-section, .history-section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+    }
+
+    .form-section h2, .history-header h2 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    #transaction-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    .form-group input, .form-group select, #filter-category {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      grid-column: 1 / -1;
+      padding: 12px;
+      background-color: #1e3c72;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #2a5298;
+    }
+
+    .btn-cancel {
+      background-color: #757575;
+    }
+
+    .btn-cancel:hover {
+      background-color: #616161;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* History */
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .transaction-list {
+      list-style: none;
+    }
+
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-left: 5px solid #ccc;
+      background-color: #fafafa;
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+
+    .transaction-item.income { border-left-color: #2e7d32; }
+    .transaction-item.expense { border-left-color: #c62828; }
+
+    .item-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-title {
+      font-weight: bold;
+    }
+
+    .item-meta {
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .item-amount {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 4px 8px;
+      border-radius: 3px;
+    }
+
+    .edit-btn { color: #1976d2; }
+    .delete-btn { color: #d32f2f; }
+
+    @media (max-width: 500px) {
+      #transaction-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Expense Tracker</h1>
+    </header>
+
+    <!-- Summary Cards -->
+    <section class="summary-cards">
+      <div class="card balance">
+        <h3>Current Balance</h3>
+        <p id="total-balance">₹0.00</p>
+      </div>
+      <div class="card income">
+        <h3>Total Income</h3>
+        <p id="total-income">₹0.00</p>
+      </div>
+      <div class="card expense">
+        <h3>Total Expenses</h3>
+        <p id="total-expense">₹0.00</p>
+      </div>
+    </section>
+
+    <!-- Add/Edit Transaction Form -->
+    <section class="form-section">
+      <h2 id="form-title">Add New Transaction</h2>
+      <form id="transaction-form">
+        <input type="hidden" id="edit-id" />
+        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" id="description" placeholder="e.g., Salary, Groceries" required />
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Amount (₹)</label>
+          <input type="number" id="amount" step="0.01" placeholder="e.g., 500" required />
+        </div>
+
+        <div class="form-group">
+          <label for="type">Type</label>
+          <select id="type" required>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" required>
+            <option value="Salary">Salary</option>
+            <option value="Food">Food & Dining</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Bills">Bills & Utilities</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" id="date" required />
+        </div>
+
+        <button type="submit" id="submit-btn" class="btn">Add Transaction</button>
+        <button type="button" id="cancel-btn" class="btn btn-cancel hidden">Cancel Edit</button>
+      </form>
+    </section>
+
+    <!-- History & Filter Section -->
+    <section class="history-section">
+      <div class="history-header">
+        <h2>Transaction History</h2>
+        <div class="filter-group">
+          <label for="filter-category">Filter Category:</label>
+          <select id="filter-category">
+            <option value="all">All Categories</option>
+            <option value="Salary">Salary</option>
+            <option value="Food">Food & Dining</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Bills">Bills & Utilities</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <ul id="transaction-list" class="transaction-list">
+        <!-- Dynamic items will be added here -->
+      </ul>
+    </section>
+  </div>
+
+  <script src="expense-app.js"></script>
+</body>
+</html>
